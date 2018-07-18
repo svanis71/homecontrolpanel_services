@@ -9,6 +9,7 @@ class Device(Resource):
         return tellstick.getDevice(int(device_id) - 1), 200
                 
     def put(self, device_id):
+        deviceid = int(device_id)
         error_response = {'message': ''}
         tellstick = Tellstick()
         json = request.json
@@ -26,6 +27,6 @@ class Device(Resource):
         if new_status > 1:
             error_response['message'] = 'Fel status'
             return error_response, 400
-        new_status_set = tellstick.changeStatus(int(device_id) - 1, new_status)
-        
-        return {'new_status': new_status_set, 'id': device_id}, 200
+
+        new_status_set = tellstick.changeStatus(deviceid - 1, new_status)
+        return {'new_status': new_status_set, 'id': deviceid}, 200
